@@ -9,9 +9,10 @@ interface OnSiteProps {
   handleProblemTypeSelection: (problemType: string) => void;
   handleRiskLevelSelection: (riskLevel: string) => void;
   handleProblemDescriptionSubmission: (problemDescription: string) => void;
+  handleURLSubmission: (photoURL: File) => void; // Add the handleURLSubmission prop
 }
 
-const OnSite: React.FC<OnSiteProps> = ({ handleProblemTypeSelection, handleRiskLevelSelection, handleProblemDescriptionSubmission }) => {
+const OnSite: React.FC<OnSiteProps> = ({ handleProblemTypeSelection, handleRiskLevelSelection, handleProblemDescriptionSubmission, handleURLSubmission }) => {
   const [selectedProblemType, setSelectedProblemType] = useState<string | null>(null);
   const [selectedRiskLevel, setSelectedRiskLevel] = useState<string | null>(null);
   const [problemDescription, setProblemDescription] = useState<string>('');
@@ -40,23 +41,24 @@ const OnSite: React.FC<OnSiteProps> = ({ handleProblemTypeSelection, handleRiskL
 
   const handleSubmit = () => {
     handleProblemDescriptionSubmission(problemDescription);
+    
     Swal.fire({
-        icon: 'success',
-        title: `On Site Issue:`,
-        html: `
-          <p>Problem Type: ${selectedProblemType}</p>
-          <p>Risk Level: ${selectedRiskLevel}</p>
-          <p>Problem Description: ${problemDescription}</p>
-          <!-- Add other recorded data here if needed -->
-        `,
-      });
-    };
+      icon: 'success',
+      title: `On Site Issue:`,
+      html: `
+        <p>Problem Type: ${selectedProblemType}</p>
+        <p>Risk Level: ${selectedRiskLevel}</p>
+        <p>Problem Description: ${problemDescription}</p>
+        <!-- Add other recorded data here if needed -->
+      `,
+    });
+  };
 
-    const onDrop = useCallback((acceptedFiles: File[]) => {
-        console.log(acceptedFiles);
-        setPhotoUploaded(true);
-        setPhotoPreviewUrl(URL.createObjectURL(acceptedFiles[0]));
-      }, []);
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    setPhotoUploaded(true);
+    setPhotoPreviewUrl(URL.createObjectURL(acceptedFiles[0]));
+    handleURLSubmission(acceptedFiles[0]);  // Pass the File object instead of URL
+  }, [handleURLSubmission]);
 
   const {getRootProps, getInputProps, open} = useDropzone({
     onDrop,
