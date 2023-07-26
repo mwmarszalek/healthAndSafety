@@ -1,31 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import ViolationsList from './ViolationsList';
+import { UserInput } from '../App';
+import Swal from 'sweetalert2'; // Import SweetAlert library
 
-const NavBar: React.FC = () => {
+
+interface NavBarProps {
+  violations: UserInput[]; // Array of submitted user inputs (assuming UserInput interface is imported here)
+}
+
+const NavBar: React.FC<NavBarProps> = ({ violations }) => {
+  const [showViolations, setShowViolations] = useState(false);
+
+  const showEmptyViolationsPopup = () => {
+    Swal.fire({
+      icon: 'info',
+      title: 'No Violations Added',
+      text: 'There are no violations added yet.',
+      confirmButtonText: 'OK',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = '/'; // Navigate to the home page when the "OK" button is clicked
+      }
+    });
+  };
+
+  const handleViolationsClick = () => {
+    if (violations) {
+      setShowViolations(false)
+    }
+    if(!showViolations && !violations) {
+    showEmptyViolationsPopup()
+  }
+    
+  };
+
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
-      <Navbar.Brand href="#home">Miller Homes</Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="me-auto">
-          <Nav.Link href="#home">Home</Nav.Link>
-          <Nav.Link href="#link">Link</Nav.Link>
-          <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.2">
-              Another action
-            </NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="#action/3.4">
-              Separated link
-            </NavDropdown.Item>
-          </NavDropdown>
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
+    <>
+      <Navbar expand="lg" className="bg-body-tertiary">
+        <Navbar.Brand href="/">Miller Homes</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            {/* Only show the Violations link */}
+            <Nav.Link onClick={handleViolationsClick}>Violations</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+      {/* Render the ViolationsList component conditionally */}
+      {showViolations && <ViolationsList violations={violations} onGoBack={() => setShowViolations(false)} />}
+    </>
   );
 };
 

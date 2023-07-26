@@ -6,7 +6,7 @@ import OnSite from "./components/OnSite";
 import TheOffice from "./components/TheOffice";
 import ViolationsList from "./components/ViolationsList";
 
-interface UserInput {
+export interface UserInput {
   location: string | null;
   problemType: string | null;
   riskLevel: string | null;
@@ -27,11 +27,13 @@ const App: React.FC = () => {
     photoURL: null,
   });
   const [violations, setViolations] = useState<UserInput[]>([]); // Store the submitted violations
+  const [showViolations, setShowViolations] = useState(false)
   const [formSubmitted, setFormSubmitted] = useState(false); // State to track whether the form is submitted
 
   const handleClick = (location: string) => {
     setLocation(location);
     setUserInput({ ...userInput, location });
+    setShowViolations(false)
     setFormSubmitted(false); // Reset the formSubmitted state when the location is changed
   };
 
@@ -58,16 +60,34 @@ const App: React.FC = () => {
     setFormSubmitted(false); // Reset the formSubmitted state
   };
 
+  const handleViolationsClick = () => {
+    if (violations.length === 0) {
+      // If there are no violations, show a SweetAlert popup
+      const MySwal = withReactContent(SweetAlert);
+      MySwal.fire({
+        title: 'No Violations Added',
+        text: 'You have not submitted any violations yet.',
+        icon: 'info',
+        confirmButtonText: 'OK',
+      });
+    } else {
+      // If there are violations, set the state to show the ViolationsList component
+      setShowViolations(true);
+    }
+  };
+
+  
+
   return (
     <div className="content-container">
       {formSubmitted ? (
         <>
-          <NavBar />
+          <NavBar violations={violations} onViolationsClick={handleViolationsClick}/>
           <ViolationsList violations={violations} onGoBack={handleGoBack} /> {/* Pass onGoBack prop */}
         </>
       ) : (
         <>
-          <NavBar />
+          <NavBar violations={violations} />
           {location === null && <Inspection handleClick={handleClick} />}
           {location === "OnSite" && (
             <OnSite
@@ -89,3 +109,7 @@ const App: React.FC = () => {
 };
 
 export default App;
+function withReactContent(SweetAlert: any) {
+  throw new Error("Function not implemented.");
+}
+

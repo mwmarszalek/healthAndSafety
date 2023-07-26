@@ -1,4 +1,5 @@
 import React from 'react';
+import Swal from 'sweetalert2'; // Import SweetAlert library
 
 interface UserInput {
   location: string | null;
@@ -25,11 +26,28 @@ const ViolationsList: React.FC<ViolationsListProps> = ({ violations, onGoBack })
     }
   }
 
+  // Function to show SWAL popup when the violations list is empty
+  const showEmptyViolationsPopup = () => {
+    Swal.fire({
+      icon: 'info',
+      title: 'No Violations Added',
+      text: 'There are no violations added yet.',
+      confirmButtonText: 'OK',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = '/'; // Navigate to the home page when the "OK" button is clicked
+      }
+    });
+  };
+
   return (
     <div>
-      <h2>Violations List</h2>
+     
       {violations.length === 0 ? (
-        <p>No violations submitted yet.</p>
+        <>
+          {showEmptyViolationsPopup()} {/* Show the SWAL popup if the violations list is empty */}
+          
+        </>
       ) : (
         <>
           <ul>
@@ -45,15 +63,14 @@ const ViolationsList: React.FC<ViolationsListProps> = ({ violations, onGoBack })
                 <br />
                 {violation.photoURL && (
                   <>
-                   <strong>Photo:</strong> <img src={violation.photoURL} alt="Violation Photo" style={{maxWidth: '200px', maxHeight: '200px'}} />
-
+                    <strong>Photo:</strong> <img src={violation.photoURL} alt="Violation Photo" style={{maxWidth: '200px', maxHeight: '200px'}} />
                   </>
                 )}
                 {/* Display other fields here if needed */}
               </li>
             ))}
           </ul>
-          <button onClick={onGoBack}>Add New Violation</button> {/* Button to navigate back */}
+          <button onClick={onGoBack}>Add New Violation</button>
         </>
       )}
     </div>
