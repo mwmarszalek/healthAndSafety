@@ -1,0 +1,22 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    width: 100vw;
+}
+
+.centered-component {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.selected {
+    background-color: green !important
+  }
