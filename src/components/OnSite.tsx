@@ -1,4 +1,4 @@
-// OnSite.tsx
+
 import React, { useState, useCallback } from 'react';
 import Button from 'react-bootstrap/Button';
 import { useDropzone } from 'react-dropzone';
@@ -44,8 +44,9 @@ const OnSite: React.FC<OnSiteProps> = ({ handleProblemTypeSelection, handleRiskL
     
     Swal.fire({
       icon: 'success',
-      title: `On Site Issue:`,
+      title: `You've added the following issue:`,
       html: `
+      <p>Problem Area: On Site</p>
         <p>Problem Type: ${selectedProblemType}</p>
         <p>Risk Level: ${selectedRiskLevel}</p>
         <p>Problem Description: ${problemDescription}</p>
@@ -78,11 +79,11 @@ const OnSite: React.FC<OnSiteProps> = ({ handleProblemTypeSelection, handleRiskL
 
   return (
     <div>
-      <h1>Please specify a type of H&S problem you're reporting:</h1>
-      <Button variant="primary" onClick={() => handleProblemTypeClick('Ergonomic')} className={selectedProblemType === 'Ergonomic' ? 'selected' : ''}>Ergonomic</Button>
-      <Button variant="primary" onClick={() => handleProblemTypeClick('Slip strips & Falls')} className={selectedProblemType === 'Slip strips & Falls' ? 'selected' : ''}>Slip strips & Falls</Button>
-      <Button variant="primary" onClick={() => handleProblemTypeClick('Electric')} className={selectedProblemType === 'Electric' ? 'selected' : ''}>Electric</Button>
-      <Button variant="primary" onClick={() => handleProblemTypeClick('Fire safety')} className={selectedProblemType === 'Fire safety' ? 'selected' : ''}>Fire safety</Button>
+      <h1>Please specify a type of Hazard:</h1>
+      <Button variant="primary" onClick={() => handleProblemTypeClick('Physical')} className={selectedProblemType === 'Physical' ? 'selected' : ''}>Physical</Button>
+      <Button variant="primary" onClick={() => handleProblemTypeClick('Chemical and Biological')} className={selectedProblemType === 'Chemical & Biological' ? 'selected' : ''}>Chemical & Biological</Button>
+      <Button variant="primary" onClick={() => handleProblemTypeClick('Psychosocial')} className={selectedProblemType === 'Psychosocial' ? 'selected' : ''}>Psychosocial</Button>
+      <Button variant="primary" onClick={() => handleProblemTypeClick('Environmental')} className={selectedProblemType === 'Environmental' ? 'selected' : ''}>Environmental</Button>
       
       {selectedProblemType && (
         <>

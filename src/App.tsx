@@ -77,7 +77,10 @@ const App: React.FC = () => {
               handleURLSubmission={handleURLSubmission}
             />
           )}
-          {location === "TheOffice" && <TheOffice />}
+          {location === "TheOffice" && <TheOffice handleProblemTypeSelection={handleProblemTypeSelection}
+              handleRiskLevelSelection={handleRiskLevelSelection}
+              handleProblemDescriptionSubmission={handleProblemDescriptionSubmission}
+              handleURLSubmission={handleURLSubmission} />}
           {/* Add other location components here if needed */}
         </>
       )}
