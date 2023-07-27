@@ -1,0 +1,23 @@
+.theoffice-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height:100%;
+
+}
+
+.office-risk-btns {
+display: flex;
+gap:1em;
+}
+
+.final-btns-container {
+    display: flex;
+    width: 50%;
+    justify-content: space-between;
+    height: 10vh;
+    
+}
+

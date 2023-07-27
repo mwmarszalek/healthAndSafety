@@ -80,17 +80,17 @@ const OnSite: React.FC<OnSiteProps> = ({ handleProblemTypeSelection, handleRiskL
   return (
     <div>
       <h1>Please specify a type of Hazard:</h1>
-      <Button variant="primary" onClick={() => handleProblemTypeClick('Physical')} className={selectedProblemType === 'Physical' ? 'selected' : ''}>Physical</Button>
-      <Button variant="primary" onClick={() => handleProblemTypeClick('Chemical and Biological')} className={selectedProblemType === 'Chemical & Biological' ? 'selected' : ''}>Chemical & Biological</Button>
-      <Button variant="primary" onClick={() => handleProblemTypeClick('Psychosocial')} className={selectedProblemType === 'Psychosocial' ? 'selected' : ''}>Psychosocial</Button>
-      <Button variant="primary" onClick={() => handleProblemTypeClick('Environmental')} className={selectedProblemType === 'Environmental' ? 'selected' : ''}>Environmental</Button>
+      <button  onClick={() => handleProblemTypeClick('Physical')} className={selectedProblemType === 'Physical' ? 'selected' : ''}>Physical</button>
+      <button  onClick={() => handleProblemTypeClick('Chemical and Biological')} className={selectedProblemType === 'Chemical & Biological' ? 'selected' : ''}>Chemical & Biological</button>
+      <button  onClick={() => handleProblemTypeClick('Psychosocial')} className={selectedProblemType === 'Psychosocial' ? 'selected' : ''}>Psychosocial</button>
+      <button  onClick={() => handleProblemTypeClick('Environmental')} className={selectedProblemType === 'Environmental' ? 'selected' : ''}>Environmental</button>
       
       {selectedProblemType && (
         <>
           <h1>Please select the risk level:</h1>
-          <Button variant="primary" onClick={() => handleRiskLevelClick('Low')} className={selectedRiskLevel === 'Low' ? 'selected' : ''}>Low</Button>
-          <Button variant="primary" onClick={() => handleRiskLevelClick('Medium')} className={selectedRiskLevel === 'Medium' ? 'selected' : ''}>Medium</Button>
-          <Button variant="primary" onClick={() => handleRiskLevelClick('High')} className={selectedRiskLevel === 'High' ? 'selected' : ''}>High</Button>
+          <button  onClick={() => handleRiskLevelClick('Low')} className={selectedRiskLevel === 'Low' ? 'selected' : ''}>Low</button>
+          <button  onClick={() => handleRiskLevelClick('Medium')} className={selectedRiskLevel === 'Medium' ? 'selected' : ''}>Medium</button>
+          <button  onClick={() => handleRiskLevelClick('High')} className={selectedRiskLevel === 'High' ? 'selected' : ''}>High</button>
         </>
       )}
 
@@ -100,17 +100,17 @@ const OnSite: React.FC<OnSiteProps> = ({ handleProblemTypeSelection, handleRiskL
           <textarea value={problemDescription} onChange={handleDescriptionChange} />
           {descriptionEntered && (
             <>
-              <Button variant="primary" onClick={handlePhotoUpload}>Add Photo</Button>
+              <button  onClick={handlePhotoUpload}>Add Photo</button>
               {photoUploaded && (
                 <>
                   <div {...getRootProps()} style={{border: '1px solid black', padding: '10px', width: '200px', textAlign: 'center'}}>
                     <input {...getInputProps()} />
                   </div>
                   {photoPreviewUrl && <img src={photoPreviewUrl} alt="Preview" style={{maxWidth: '200px', maxHeight: '200px'}} />}
-                  <Button variant="primary" onClick={handleRemovePhoto}>Remove Photo</Button>
+                  <button  onClick={handleRemovePhoto}>Remove Photo</button>
                 </>
               )}
-              <Button variant="primary" onClick={handleSubmit}>Submit</Button>
+              <button  onClick={handleSubmit}>Submit</button>
             </>
           )}
         </>

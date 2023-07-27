@@ -1,6 +1,7 @@
 // Inspection.tsx
 import React from 'react';
-import Button from 'react-bootstrap/Button';
+import './Inspection.css'
+
 
 interface InspectionProps {
   handleClick: (location: string) => void;
@@ -8,10 +9,12 @@ interface InspectionProps {
 
 const Inspection: React.FC<InspectionProps> = ({ handleClick }) => {
   return (
-    <div className="centered-component">
-      <h1>Where is this issue?</h1>
-      <Button variant="primary" onClick={() => handleClick('OnSite')}>On Site</Button>
-      <Button variant="primary" onClick={() => handleClick('TheOffice')}>In the Office</Button>
+    <div className="inspection-container">
+      <h1 style={{margin: '3em'}}>In which area have you spotted the issue?</h1>
+      <div className='site-office-buttons'>
+      <button onClick={() => handleClick('OnSite')}>On Site</button>
+      <button onClick={() => handleClick('TheOffice')}>In the Office</button>
+    </div>
     </div>
   );
 };

@@ -28,7 +28,7 @@ const NavBar: React.FC<NavBarProps> = ({ violations }) => {
 
   const handleViolationsClick = () => {
     if (violations) {
-      setShowViolations(false)
+      setShowViolations(true)
     }
     if(!showViolations && !violations) {
     showEmptyViolationsPopup()
