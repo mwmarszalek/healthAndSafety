@@ -5,14 +5,15 @@ import '../global.css';
 import './TheOffice.css';
 import { Form } from 'react-bootstrap'; // Import the Form component from react-bootstrap
 import AnimatedCheckmark, { MODES } from 'react-animated-checkmark'
-
-
+import { UserInput } from '../App';
+import ViolationsList from './ViolationsList';
 
 interface TheOfficeProps {
   handleProblemTypeSelection: (problemType: string) => void;
   handleRiskLevelSelection: (riskLevel: string) => void;
   handleProblemDescriptionSubmission: (problemDescription: string) => void;
   handleURLSubmission: (photoURL: File) => void; // Add the handleURLSubmission prop
+  violations: UserInput[];
 }
 
 const TheOffice: React.FC<TheOfficeProps> = ({
@@ -20,6 +21,7 @@ const TheOffice: React.FC<TheOfficeProps> = ({
   handleRiskLevelSelection,
   handleProblemDescriptionSubmission,
   handleURLSubmission,
+  violations,
 }) => {
   const [selectedProblemType, setSelectedProblemType] = useState<string | null>(null);
   const [selectedRiskLevel, setSelectedRiskLevel] = useState<string | null>(null);
@@ -29,9 +31,9 @@ const TheOffice: React.FC<TheOfficeProps> = ({
   const [uploadComplete, setUploadComplete] = useState<boolean>(false);
   const [photoPreviewUrl, setPhotoPreviewUrl] = useState<string>('');
 
-  //optional for spinning tick mark
+  // Optional for spinning tick mark
   const [fileSelected, setFileSelected] = useState(false);
-  const [mode, setMode] = useState(MODES.LOADING)
+  const [mode, setMode] = useState(MODES.LOADING);
 
   const handleProblemTypeClick = (problemType: string) => {
     setSelectedProblemType(problemType);
@@ -59,11 +61,14 @@ const TheOffice: React.FC<TheOfficeProps> = ({
       icon: 'success',
       title: `On Site Issue:`,
       html: `
-        <p>Problem Area: The Office</p>
-        <p>Problem Type: ${selectedProblemType}</p>
-        <p>Risk Level: ${selectedRiskLevel}</p>
-        <p>Problem Description: ${problemDescription}</p>
-        <!-- Add other recorded data here if needed -->
+        ${violations.map((violation) => `
+          <div>
+            <p>Problem Type: ${violation.problemType}</p>
+            <p>Risk Level: ${violation.riskLevel}</p>
+            <p>Problem Description: ${violation.problemDescription}</p>
+            <img src="${violation.photoURL}" alt="Violation Photo" class="swal-image" />
+          </div>
+        `).join('')}
       `,
     });
   };
@@ -81,10 +86,23 @@ const TheOffice: React.FC<TheOfficeProps> = ({
   });
 
   const handlePhotoUpload = () => {
+    setPhotoUploaded(true);
 
-      setPhotoUploaded(true);
-    
-  
+    Swal.fire({
+      icon: 'success',
+      title: `Photo has been uploaded successfully`,
+      html: `
+        ${violations.map((violation) => `
+          <div>
+            <p>Problem Type: ${violation.problemType}</p>
+            <p>Risk Level: ${violation.riskLevel}</p>
+            <p>Problem Description: ${violation.problemDescription}</p>
+            <img src={photoPreviewUrl}" alt="Violation Photo" class="swal-image" />
+          </div>
+        `).join('')}
+      `,
+    });
+
     open();
   };
 
@@ -92,7 +110,6 @@ const TheOffice: React.FC<TheOfficeProps> = ({
     setPhotoUploaded(false);
     setPhotoPreviewUrl('');
   };
-  
 
   return (
     <div className='theoffice-container'>
@@ -185,7 +202,7 @@ const TheOffice: React.FC<TheOfficeProps> = ({
             as="textarea"
             value={problemDescription}
             onChange={handleDescriptionChange}
-            style={{ marginBottom: '15px',width:'50%'}}
+            style={{ marginBottom: '15px', width: '50%' }}
             placeholder="Enter problem description here"
           />
           {descriptionEntered && (

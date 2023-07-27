@@ -100,7 +100,9 @@ const App: React.FC = () => {
           {location === "TheOffice" && <TheOffice handleProblemTypeSelection={handleProblemTypeSelection}
               handleRiskLevelSelection={handleRiskLevelSelection}
               handleProblemDescriptionSubmission={handleProblemDescriptionSubmission}
-              handleURLSubmission={handleURLSubmission} />}
+              handleURLSubmission={handleURLSubmission} 
+              violations={violations}/>}
+  
           {/* Add other location components here if needed */}
         </>
       )}
@@ -109,7 +111,6 @@ const App: React.FC = () => {
 };
 
 export default App;
-function withReactContent(SweetAlert: any) {
-  throw new Error("Function not implemented.");
-}
+
+
 
