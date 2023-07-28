@@ -5,6 +5,8 @@ import Inspection from "./components/Inspection";
 import OnSite from "./components/OnSite";
 import TheOffice from "./components/TheOffice";
 import ViolationsList from "./components/ViolationsList";
+import Swal from 'sweetalert2'; 
+import Login from "./components/SignInSide";
 
 export interface UserInput {
   location: string | null;
@@ -29,6 +31,8 @@ const App: React.FC = () => {
   const [violations, setViolations] = useState<UserInput[]>([]); // Store the submitted violations
   const [showViolations, setShowViolations] = useState(false)
   const [formSubmitted, setFormSubmitted] = useState(false); // State to track whether the form is submitted
+
+
 
   const handleClick = (location: string) => {
     setLocation(location);
@@ -63,8 +67,8 @@ const App: React.FC = () => {
   const handleViolationsClick = () => {
     if (violations.length === 0) {
       // If there are no violations, show a SweetAlert popup
-      const MySwal = withReactContent(SweetAlert);
-      MySwal.fire({
+      
+      Swal.fire({
         title: 'No Violations Added',
         text: 'You have not submitted any violations yet.',
         icon: 'info',
@@ -113,4 +117,8 @@ const App: React.FC = () => {
 export default App;
 
 
+
+function withReactContent(SweetAlert: any) {
+  throw new Error("Function not implemented.");
+}
 

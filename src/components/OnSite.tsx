@@ -78,8 +78,10 @@ const OnSite: React.FC<OnSiteProps> = ({ handleProblemTypeSelection, handleRiskL
   }
 
   return (
-    <div>
+    <div className="onsite-container">
+      <h1>Site Environment</h1>
       <h1>Please specify a type of Hazard:</h1>
+      <div className="office-hazard-btns"></div>
       <button  onClick={() => handleProblemTypeClick('Physical')} className={selectedProblemType === 'Physical' ? 'selected' : ''}>Physical</button>
       <button  onClick={() => handleProblemTypeClick('Chemical and Biological')} className={selectedProblemType === 'Chemical & Biological' ? 'selected' : ''}>Chemical & Biological</button>
       <button  onClick={() => handleProblemTypeClick('Psychosocial')} className={selectedProblemType === 'Psychosocial' ? 'selected' : ''}>Psychosocial</button>

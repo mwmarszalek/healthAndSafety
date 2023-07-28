@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import ViolationsList from './ViolationsList';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown';
 import { UserInput } from '../App';
 import Swal from 'sweetalert2'; // Import SweetAlert library
-
+import Logo2 from '../assets/344px-Miller_Homes_logo.svg.png';
 
 interface NavBarProps {
   violations: UserInput[]; // Array of submitted user inputs (assuming UserInput interface is imported here)
@@ -27,29 +28,38 @@ const NavBar: React.FC<NavBarProps> = ({ violations }) => {
   };
 
   const handleViolationsClick = () => {
-    if (violations) {
-      setShowViolations(true)
+    if (violations.length > 0) {
+      setShowViolations(true);
+    } else {
+      showEmptyViolationsPopup();
     }
-    if(!showViolations && !violations) {
-    showEmptyViolationsPopup()
-  }
-    
   };
 
   return (
     <>
-      <Navbar expand="lg" className="bg-body-tertiary">
-        <Navbar.Brand href="/">Miller Homes</Navbar.Brand>
+      <Navbar expand="lg" className="navbar-custom bg-body-tertiary">
+        <Navbar.Brand href="/">
+          <img src={Logo2} alt="Logo" style={{ marginLeft: '2em' }} />
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            {/* Only show the Violations link */}
-            <Nav.Link onClick={handleViolationsClick}>Violations</Nav.Link>
-          </Nav>
+          <Nav className="me-auto"></Nav>
+          <div style={{ marginLeft: 'auto' }}> {/* Use a div to wrap the DropdownButton */}
+            <DropdownButton
+              id="dropdown-basic-button"
+              title="Menu"
+              style={{ width: 'auto', minWidth: '12em' }} // Adjust the width and minWidth
+            >
+              <Dropdown.Item href="#/action-2">Profile</Dropdown.Item>
+              <Dropdown.Divider />
+              <Dropdown.Item onClick={handleViolationsClick}>Violations</Dropdown.Item>
+              <Dropdown.Item href="#/action-2">Reports</Dropdown.Item>
+              <Dropdown.Divider />
+              <Dropdown.Item href="#/action-3">Settings</Dropdown.Item>
+            </DropdownButton>
+          </div>
         </Navbar.Collapse>
       </Navbar>
-      {/* Render the ViolationsList component conditionally */}
-      {showViolations && <ViolationsList violations={violations} onGoBack={() => setShowViolations(false)} />}
     </>
   );
 };
