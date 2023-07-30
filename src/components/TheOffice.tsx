@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import Swal from "sweetalert2"; 
+import Swal from "sweetalert2";
 import "../global.css";
 import "./TheOffice.css";
 import { Form, Button } from "react-bootstrap";
@@ -23,16 +23,23 @@ const TheOffice: React.FC<TheOfficeProps> = ({
 }) => {
   // Additional states
   const [locationDescription, setLocationDescription] = useState<string>("");
-  const [isLocationDescribed, setIsLocationDescribed] = useState<boolean>(false);
-  const [selectedProblemType, setSelectedProblemType] = useState<string | null>(null);
-  const [selectedRiskLevel, setSelectedRiskLevel] = useState<string | null>(null);
+  const [isLocationDescribed, setIsLocationDescribed] =
+    useState<boolean>(false);
+  const [selectedProblemType, setSelectedProblemType] = useState<string | null>(
+    null
+  );
+  const [selectedRiskLevel, setSelectedRiskLevel] = useState<string | null>(
+    null
+  );
   const [problemDescription, setProblemDescription] = useState<string>("");
   const [descriptionEntered, setDescriptionEntered] = useState<boolean>(false);
   const [photoUploaded, setPhotoUploaded] = useState<boolean>(false);
   const [photoPreviewUrl, setPhotoPreviewUrl] = useState<string>("");
 
   // Add this function to handle location description
-  const handleLocationDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleLocationDescriptionChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setLocationDescription(event.target.value);
   };
 
@@ -50,9 +57,18 @@ const TheOffice: React.FC<TheOfficeProps> = ({
   ) => {
     setterFunction(value);
     handlerFunction(value);
+  
+    if (value === "High") {
+      Swal.fire({
+        icon: "error",
+        title: "Emergency",
+        html: "If this is an emergency please call our helpline immediately: <a href='tel:+1234567890'>+1 234 567 890</a>",
+      });
+    }
   };
-
-  const handleDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleDescriptionChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setProblemDescription(event.target.value);
     if (event.target.value.trim() !== "") {
       setDescriptionEntered(true);
@@ -66,7 +82,7 @@ const TheOffice: React.FC<TheOfficeProps> = ({
 
     Swal.fire({
       icon: "success",
-      title: `On Site Issue:`,
+      title: `Succesfully reported an issue:`,
       html: `
           <div>
             <p>Location: ${locationDescription}</p>
@@ -82,7 +98,11 @@ const TheOffice: React.FC<TheOfficeProps> = ({
     (acceptedFiles: File[]) => {
       setPhotoUploaded(true);
       handleURLSubmission(acceptedFiles[0]);
-      // setPhotoPreviewUrl(URL.createObjectURL(acceptedFiles[0]));
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: "Photo uploaded successfully!",
+      });
     },
     [handleURLSubmission]
   );
@@ -101,46 +121,87 @@ const TheOffice: React.FC<TheOfficeProps> = ({
   const getButtonStyle = (selectedValue: string, buttonValue: string) => ({
     backgroundColor: selectedValue === buttonValue ? "#05c7c3" : "transparent",
     color: "black",
+    fontWeight: "800", // This will make the font bold
   });
 
   return (
     <div className="theoffice-container">
-      <h1>Office Environment</h1>
-      <h1>Please describe the location:</h1>
+      <h2 style={{ fontWeight: "bold", margin: ".5em" }}>
+        Please describe the location:
+      </h2>
       <Form.Control
         as="textarea"
         value={locationDescription}
         onChange={handleLocationDescriptionChange}
-        style={{ marginBottom: "15px", width: "50%" }}
+        style={{
+          marginBottom: "15px",
+          width: "50%",
+          backgroundColor: "#d5e2e2",
+          fontWeight: "bold",
+        }}
         placeholder="Enter location description here"
       />
       {!isLocationDescribed ? (
-        <Button onClick={handleContinueButtonClick}>Continue</Button>
+        <button
+          onClick={handleContinueButtonClick}
+          style={getButtonStyle("Continue", "Continue")}
+        >
+          Continue
+        </button>
       ) : null}
       {isLocationDescribed && (
         <>
-          <h1>Please specify a type of Hazard:</h1>
+          <h2 style={{ fontWeight: "bold", margin: ".5em" }}>
+            Please specify a type of Hazard:
+          </h2>
           <div className="office-hazard-btns">
             <button
-              onClick={() => handleClick(setSelectedProblemType, handleProblemTypeSelection, "Physical")}
+              onClick={() =>
+                handleClick(
+                  setSelectedProblemType,
+                  handleProblemTypeSelection,
+                  "Physical"
+                )
+              }
               style={getButtonStyle(selectedProblemType || "", "Physical")}
             >
               Physical
             </button>
             <button
-              onClick={() => handleClick(setSelectedProblemType, handleProblemTypeSelection, "Chemical and Biological")}
-              style={getButtonStyle(selectedProblemType || "", "Chemical and Biological")}
+              onClick={() =>
+                handleClick(
+                  setSelectedProblemType,
+                  handleProblemTypeSelection,
+                  "Chemical and Biological"
+                )
+              }
+              style={getButtonStyle(
+                selectedProblemType || "",
+                "Chemical and Biological"
+              )}
             >
               Chemical & Biological
             </button>
             <button
-              onClick={() => handleClick(setSelectedProblemType, handleProblemTypeSelection, "Psychosocial")}
+              onClick={() =>
+                handleClick(
+                  setSelectedProblemType,
+                  handleProblemTypeSelection,
+                  "Psychosocial"
+                )
+              }
               style={getButtonStyle(selectedProblemType || "", "Psychosocial")}
             >
               Psychosocial
             </button>
             <button
-              onClick={() => handleClick(setSelectedProblemType, handleProblemTypeSelection, "Environmental")}
+              onClick={() =>
+                handleClick(
+                  setSelectedProblemType,
+                  handleProblemTypeSelection,
+                  "Environmental"
+                )
+              }
               style={getButtonStyle(selectedProblemType || "", "Environmental")}
             >
               Environmental
@@ -148,22 +209,42 @@ const TheOffice: React.FC<TheOfficeProps> = ({
           </div>
           {selectedProblemType && (
             <>
-              <h1>Please select the risk level:</h1>
+              <h2 style={{ fontWeight: "bold", margin: ".5em" }}>
+                Please select the risk level:
+              </h2>
               <div className="office-risk-btns">
                 <button
-                  onClick={() => handleClick(setSelectedRiskLevel, handleRiskLevelSelection, "Low")}
+                  onClick={() =>
+                    handleClick(
+                      setSelectedRiskLevel,
+                      handleRiskLevelSelection,
+                      "Low"
+                    )
+                  }
                   style={getButtonStyle(selectedRiskLevel || "", "Low")}
                 >
                   Low
                 </button>
                 <button
-                  onClick={() => handleClick(setSelectedRiskLevel, handleRiskLevelSelection, "Medium")}
+                  onClick={() =>
+                    handleClick(
+                      setSelectedRiskLevel,
+                      handleRiskLevelSelection,
+                      "Medium"
+                    )
+                  }
                   style={getButtonStyle(selectedRiskLevel || "", "Medium")}
                 >
                   Medium
                 </button>
                 <button
-                  onClick={() => handleClick(setSelectedRiskLevel, handleRiskLevelSelection, "High")}
+                  onClick={() =>
+                    handleClick(
+                      setSelectedRiskLevel,
+                      handleRiskLevelSelection,
+                      "High"
+                    )
+                  }
                   style={getButtonStyle(selectedRiskLevel || "", "High")}
                 >
                   High
@@ -173,42 +254,49 @@ const TheOffice: React.FC<TheOfficeProps> = ({
           )}
           {selectedRiskLevel && (
             <>
-              <h1>Please enter a description of the problem:</h1>
+              <h2 style={{ fontWeight: "bold", margin: ".5em" }}>
+                Please enter a description of the problem:
+              </h2>
               <Form.Control
                 as="textarea"
                 value={problemDescription}
                 onChange={handleDescriptionChange}
-                style={{ marginBottom: "15px", width: "50%" }}
+                style={{
+                  marginBottom: "15px",
+                  width: "50%",
+                  backgroundColor: "#d5e2e2",
+                  fontWeight: "bold",
+                }}
                 placeholder="Enter problem description here"
               />
               {descriptionEntered && (
                 <div className="final-btns-container">
                   {photoUploaded ? (
                     <>
-                      <div
-                        {...getRootProps()}
-                        style={{
-                          border: "1px solid black",
-                          padding: "10px",
-                          width: "200px",
-                          textAlign: "center",
-                        }}
-                      >
-                        <input {...getInputProps()} />
-                      </div>
-                      {photoPreviewUrl && (
-                        <img
-                          src={photoPreviewUrl}
-                          alt="Preview"
-                          style={{ maxWidth: "200px", maxHeight: "200px" }}
-                        />
-                      )}
                       <button onClick={handleRemovePhoto}>Remove Photo</button>
                     </>
                   ) : (
-                    <button onClick={open}>Upload Photo</button>
+                    <button
+                      onClick={open}
+                      style={
+                        photoUploaded
+                          ? { backgroundColor: "transparent", color: "black" }
+                          : getButtonStyle("Upload Photo", "Upload Photo")
+                      }
+                    >
+                      Upload Photo
+                    </button>
                   )}
-                  <button onClick={handleSubmit}>Submit</button>
+                  <button
+                    onClick={handleSubmit}
+                    style={
+                      descriptionEntered
+                        ? getButtonStyle("Submit", "Submit")
+                        : { backgroundColor: "transparent", color: "black" }
+                    }
+                  >
+                    Submit
+                  </button>
                 </div>
               )}
             </>
