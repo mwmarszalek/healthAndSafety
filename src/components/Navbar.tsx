@@ -44,6 +44,7 @@ const NavBar: React.FC<NavBarProps> = ({ violations }) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto"></Nav>
+          <h1 style={{ marginRight: '5em', marginTop:'.3em', textAlign: 'center', fontWeight: 'bold', color: 'red',textShadow:'1px 1px 1px' }}>H&S Reporting</h1> {/* Add h1 tag here */}
           <div style={{ marginLeft: 'auto' }}> {/* Use a div to wrap the DropdownButton */}
             <DropdownButton
               id="dropdown-basic-button"

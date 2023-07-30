@@ -5,15 +5,15 @@ import Inspection from "./components/Inspection";
 import OnSite from "./components/OnSite";
 import TheOffice from "./components/TheOffice";
 import ViolationsList from "./components/ViolationsList";
-import Swal from 'sweetalert2'; 
-import Login from "./components/SignInSide";
+import Swal from "sweetalert2";
+
 
 export interface UserInput {
   location: string | null;
   problemType: string | null;
   riskLevel: string | null;
   problemDescription: string | null;
-  photoFile: File | null;  // Add this line
+  photoFile: File | null; // Add this line
   photoURL: string | null;
   // Add other fields as needed
 }
@@ -25,19 +25,17 @@ const App: React.FC = () => {
     problemType: null,
     riskLevel: null,
     problemDescription: null,
-    photoFile: null,  // Add this line
+    photoFile: null, // Add this line
     photoURL: null,
   });
   const [violations, setViolations] = useState<UserInput[]>([]); // Store the submitted violations
-  const [showViolations, setShowViolations] = useState(false)
+  const [showViolations, setShowViolations] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false); // State to track whether the form is submitted
-
-
 
   const handleClick = (location: string) => {
     setLocation(location);
     setUserInput({ ...userInput, location });
-    setShowViolations(false)
+    setShowViolations(false);
     setFormSubmitted(false); // Reset the formSubmitted state when the location is changed
   };
 
@@ -50,7 +48,11 @@ const App: React.FC = () => {
   };
 
   const handleURLSubmission = (photoFile: File) => {
-    setUserInput({ ...userInput, photoFile, photoURL: URL.createObjectURL(photoFile) });
+    setUserInput({
+      ...userInput,
+      photoFile,
+      photoURL: URL.createObjectURL(photoFile),
+    });
   };
 
   const handleProblemDescriptionSubmission = (problemDescription: string) => {
@@ -67,12 +69,12 @@ const App: React.FC = () => {
   const handleViolationsClick = () => {
     if (violations.length === 0) {
       // If there are no violations, show a SweetAlert popup
-      
+
       Swal.fire({
-        title: 'No Violations Added',
-        text: 'You have not submitted any violations yet.',
-        icon: 'info',
-        confirmButtonText: 'OK',
+        title: "No Violations Added",
+        text: "You have not submitted any violations yet.",
+        icon: "info",
+        confirmButtonText: "OK",
       });
     } else {
       // If there are violations, set the state to show the ViolationsList component
@@ -80,14 +82,17 @@ const App: React.FC = () => {
     }
   };
 
-  
-
   return (
     <div className="content-container">
       {formSubmitted ? (
         <>
-          <NavBar violations={violations} onViolationsClick={handleViolationsClick}/>
-          <ViolationsList violations={violations} onGoBack={handleGoBack} /> {/* Pass onGoBack prop */}
+          <NavBar
+            violations={violations}
+            onViolationsClick={handleViolationsClick}
+          />
+          <ViolationsList violations={violations} onGoBack={handleGoBack} />{" "}
+          {/* Pass onGoBack prop */}
+
         </>
       ) : (
         <>
@@ -97,17 +102,25 @@ const App: React.FC = () => {
             <OnSite
               handleProblemTypeSelection={handleProblemTypeSelection}
               handleRiskLevelSelection={handleRiskLevelSelection}
-              handleProblemDescriptionSubmission={handleProblemDescriptionSubmission}
+              handleProblemDescriptionSubmission={
+                handleProblemDescriptionSubmission
+              }
               handleURLSubmission={handleURLSubmission}
+              violations={[]}
             />
           )}
-          {location === "TheOffice" && <TheOffice handleProblemTypeSelection={handleProblemTypeSelection}
+          {location === "TheOffice" && (
+            <TheOffice
+              handleProblemTypeSelection={handleProblemTypeSelection}
               handleRiskLevelSelection={handleRiskLevelSelection}
-              handleProblemDescriptionSubmission={handleProblemDescriptionSubmission}
-              handleURLSubmission={handleURLSubmission} 
-              violations={violations}/>}
-  
-          {/* Add other location components here if needed */}
+              handleProblemDescriptionSubmission={
+                handleProblemDescriptionSubmission
+              }
+              handleURLSubmission={handleURLSubmission}
+              violations={violations}
+            />
+          )}
+
         </>
       )}
     </div>
@@ -116,9 +129,6 @@ const App: React.FC = () => {
 
 export default App;
 
-
-
 function withReactContent(SweetAlert: any) {
   throw new Error("Function not implemented.");
 }
-
